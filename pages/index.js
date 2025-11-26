@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import styles from '../styles/Dashboard.module.css';
-import IconTrash from '../components/IconTrash'; // Importamos el icono
+import IconTrash from '../components/IconTrash';
+import CharacterSheetForm from '../components/CharacterSheetForm'; // CAMBIO 1: Importamos el nuevo componente
 
 export default function Dashboard() {
   const { data: session, status } = useSession({
@@ -17,10 +18,27 @@ export default function Dashboard() {
 
   const [partidas, setPartidas] = useState([]);
   const [showNewGameForm, setShowNewGameForm] = useState(false);
+  
+  // CAMBIO 2: Reemplazamos los estados antiguos por estados más estructurados
   const [newGameTitle, setNewGameTitle] = useState('');
-  const [newGamePrompt, setNewGamePrompt] = useState(
-    "Eres un Dungeon Master de D&D. La aventura empieza en una taberna oscura. El jugador se llama 'Kaelen'. Describe la escena y espera su acción."
-  );
+  const [character, setCharacter] = useState({
+    name: 'Kaelen',
+    race: 'Elfo',
+    class: 'Pícaro',
+    strength: 8,
+    dexterity: 18,
+    life: 25,
+  });
+  const [scenario, setScenario] = useState("La aventura empieza en una taberna oscura. Describe la escena y espera la acción del jugador.");
+  const [finalPrompt, setFinalPrompt] = useState('');
+
+  // CAMBIO 3: Usamos useEffect para construir el prompt final dinámicamente
+  useEffect(() => {
+    const characterInfo = `El jugador se llama '${character.name}', es un ${character.race} ${character.class} con Fuerza ${character.strength}, Destreza ${character.dexterity} y ${character.life} puntos de vida.`;
+    const prompt = `Eres un Dungeon Master de Dungeons & Dragons. ${characterInfo} ${scenario}`;
+    setFinalPrompt(prompt);
+  }, [character, scenario]); // Se actualiza cada vez que el personaje o el escenario cambian
+
 
   useEffect(() => {
     if (session) {
@@ -35,7 +53,8 @@ export default function Dashboard() {
     const res = await fetch('/api/partidas/crear', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: newGameTitle, systemPrompt: newGamePrompt }),
+      // CAMBIO 4: Enviamos el `finalPrompt` que hemos construido
+      body: JSON.stringify({ title: newGameTitle, systemPrompt: finalPrompt }),
     });
     if (res.ok) {
       const nuevaPartida = await res.json();
@@ -45,23 +64,17 @@ export default function Dashboard() {
     }
   };
 
-  // Nueva función para manejar el borrado
   const handleDelete = async (partidaId, e) => {
-    // Detenemos la propagación para evitar que al hacer clic en el botón, también se active el Link
     e.stopPropagation();
     e.preventDefault();
-
     if (window.confirm("¿Estás seguro de que quieres borrar esta partida? Esta acción no se puede deshacer.")) {
-      // Llamamos al endpoint unificado que creamos
       const res = await fetch(`/api/partida/${partidaId}`, {
         method: 'DELETE',
       });
-
       if (res.ok) {
-        // Si el borrado fue exitoso, actualizamos el estado para quitar la partida de la lista (UI en tiempo real)
         setPartidas(partidas.filter(partida => partida.id !== partidaId));
       } else {
-        alert("Error al borrar la partida. Inténtalo de nuevo.");
+        alert("Error al borrar la partida.");
       }
     }
   };
@@ -95,13 +108,18 @@ export default function Dashboard() {
             <form onSubmit={handleCreateGame} className={styles.form}>
               <h3>Crear Nueva Partida</h3>
               <div className={styles.inputGroup}>
-                <label>Título:</label>
+                <label>Título de la Partida:</label>
                 <input type="text" value={newGameTitle} onChange={(e) => setNewGameTitle(e.target.value)} placeholder="La Cripta del Liche Olvidado" required className={styles.input}/>
               </div>
-              <div className={styles.inputGroup}>
-                <label>Prompt del Sistema (la misión inicial):</label>
-                <textarea value={newGamePrompt} onChange={(e) => setNewGamePrompt(e.target.value)} required rows="5" className={styles.textarea}></textarea>
-              </div>
+              
+              {/* CAMBIO 5: Reemplazamos el textarea antiguo por el nuevo componente */}
+              <CharacterSheetForm 
+                character={character}
+                setCharacter={setCharacter}
+                scenario={scenario}
+                setScenario={setScenario}
+              />
+              
               <button type="submit" className={styles.createButton}>
                 Crear y Empezar
               </button>
@@ -116,7 +134,6 @@ export default function Dashboard() {
                     <h3>{partida.title}</h3>
                     <p>Última actualización: {new Date(partida.updatedAt).toLocaleString()}</p>
                   </div>
-                  {/* Añadimos el botón de borrado */}
                   <button
                     className={styles.deleteButton}
                     onClick={(e) => handleDelete(partida.id, e)}
