@@ -1,9 +1,12 @@
+// Archivo: pages/index.js
+
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import styles from '../styles/Dashboard.module.css';
+import IconTrash from '../components/IconTrash'; // Importamos el icono
 
 export default function Dashboard() {
   const { data: session, status } = useSession({
@@ -42,6 +45,27 @@ export default function Dashboard() {
     }
   };
 
+  // Nueva función para manejar el borrado
+  const handleDelete = async (partidaId, e) => {
+    // Detenemos la propagación para evitar que al hacer clic en el botón, también se active el Link
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (window.confirm("¿Estás seguro de que quieres borrar esta partida? Esta acción no se puede deshacer.")) {
+      // Llamamos al endpoint unificado que creamos
+      const res = await fetch(`/api/partida/${partidaId}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        // Si el borrado fue exitoso, actualizamos el estado para quitar la partida de la lista (UI en tiempo real)
+        setPartidas(partidas.filter(partida => partida.id !== partidaId));
+      } else {
+        alert("Error al borrar la partida. Inténtalo de nuevo.");
+      }
+    }
+  };
+
   if (status === 'loading') {
     return <div className="container"><p>Cargando sesión...</p></div>;
   }
@@ -72,24 +96,11 @@ export default function Dashboard() {
               <h3>Crear Nueva Partida</h3>
               <div className={styles.inputGroup}>
                 <label>Título:</label>
-                <input
-                  type="text"
-                  value={newGameTitle}
-                  onChange={(e) => setNewGameTitle(e.target.value)}
-                  placeholder="La Cripta del Liche Olvidado"
-                  required
-                  className={styles.input}
-                />
+                <input type="text" value={newGameTitle} onChange={(e) => setNewGameTitle(e.target.value)} placeholder="La Cripta del Liche Olvidado" required className={styles.input}/>
               </div>
               <div className={styles.inputGroup}>
                 <label>Prompt del Sistema (la misión inicial):</label>
-                <textarea
-                  value={newGamePrompt}
-                  onChange={(e) => setNewGamePrompt(e.target.value)}
-                  required
-                  rows="5"
-                  className={styles.textarea}
-                ></textarea>
+                <textarea value={newGamePrompt} onChange={(e) => setNewGamePrompt(e.target.value)} required rows="5" className={styles.textarea}></textarea>
               </div>
               <button type="submit" className={styles.createButton}>
                 Crear y Empezar
@@ -101,8 +112,18 @@ export default function Dashboard() {
             {partidas.length > 0 ? (
               partidas.map((partida) => (
                 <Link key={partida.id} href={`/partida/${partida.id}`} className={styles.partidaCard}>
-                  <h3>{partida.title}</h3>
-                  <p>Última actualización: {new Date(partida.updatedAt).toLocaleString()}</p>
+                  <div>
+                    <h3>{partida.title}</h3>
+                    <p>Última actualización: {new Date(partida.updatedAt).toLocaleString()}</p>
+                  </div>
+                  {/* Añadimos el botón de borrado */}
+                  <button
+                    className={styles.deleteButton}
+                    onClick={(e) => handleDelete(partida.id, e)}
+                    title="Borrar partida"
+                  >
+                    <IconTrash />
+                  </button>
                 </Link>
               ))
             ) : (

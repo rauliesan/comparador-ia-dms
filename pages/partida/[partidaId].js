@@ -62,11 +62,8 @@ export default function PartidaPage() {
         setIsSubmitting(false);
     };
 
-    // ---------- LÓGICA DE CONVERSACIÓN CORREGIDA ----------
-    // Esta nueva lógica es más robusta y soluciona el bug del mensaje inicial que desaparecía.
     const conversationTurns = [];
     if (partida) {
-        // Primero, comprobamos si existe el turno inicial (sin mensaje de usuario).
         if (partida.mensajes.length > 0 && partida.mensajes[0].role !== 'user') {
             conversationTurns.push({
                 user: null,
@@ -75,7 +72,6 @@ export default function PartidaPage() {
             });
         }
 
-        // Luego, procesamos todos los turnos que SÍ empiezan con un mensaje de usuario.
         const userMessages = partida.mensajes.filter(m => m.role === 'user');
         userMessages.forEach((userMsg) => {
             const userMsgIndexInMainArray = partida.mensajes.findIndex(m => m.id === userMsg.id);
@@ -101,12 +97,10 @@ export default function PartidaPage() {
                 
                 <div className={styles.chatContainer}>
                     <div className={styles.chatColumn}>
-                        <h2>Partida con DM 1 (Llama-3.1 8B)</h2>
+                        <h2>Partida con DM 1 (Llama 3.1 8B)</h2>
                         <div className={styles.chatBox}>
                             {conversationTurns.map((turn, index) => (
                                 <div key={index}>
-                                    {/* ---------- ORDEN DE RENDERIZADO CORREGIDO ---------- */}
-                                    {/* El mensaje del usuario siempre se muestra primero en su turno. */}
                                     {turn.user && (
                                         <div className={styles.userMessageContainer}>
                                             <p className={styles.messageLabel}>Tú</p>
@@ -125,11 +119,11 @@ export default function PartidaPage() {
                         </div>
                     </div>
                     <div className={styles.chatColumn}>
-                        <h2>Partida con DM 2 (Mixtral 8x7B)</h2>
+                        {/* ---------- CAMBIO FINAL REALIZADO AQUÍ ---------- */}
+                        <h2>Partida con DM 2 (Llama 3.3 70B)</h2>
                         <div className={styles.chatBox}>
                              {conversationTurns.map((turn, index) => (
                                 <div key={index}>
-                                     {/* ---------- ORDEN DE RENDERIZADO CORREGIDO ---------- */}
                                     {turn.user && (
                                         <div className={styles.userMessageContainer}>
                                             <p className={styles.messageLabel}>Tú</p>

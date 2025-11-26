@@ -136,3 +136,33 @@
     font-size: 0.9rem;
     margin: 0;
 }
+
+
+.partidaCard {
+    /* Añadimos position: relative y ajustamos el display */
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: #aaa;
+    transition: all 0.2s;
+    /* Posicionamos el botón en la esquina */
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.deleteButton:hover {
+    background-color: #ffebee;
+    /* Un fondo rojo claro */
+    color: #d32f2f;
+    /* Un color rojo oscuro */
+}
