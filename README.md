@@ -1,3 +1,31 @@
+#### **1. Añadir la Nueva Dependencia (`react-textarea-autosize`)**
+
+Es una buena práctica documentar todas las dependencias principales. Aunque `npm install` la instalará automáticamente, mencionarla da una visión más completa del stack.
+
+*   **Lugar:** En la sección `✨ Características Principales`.
+*   **Acción:** Añade un nuevo punto a la lista.
+
+#### **2. Añadir la "Hoja de Personaje" a las Características**
+
+¡Hemos implementado un extra importante! Deberíamos presumir de ello en la lista de características.
+
+*   **Lugar:** En la sección `✨ Características Principales`.
+*   **Acción:** Añade otro punto a la lista describiendo esta funcionalidad.
+
+#### **3. Actualizar la Dependencia en la Sección de Stack**
+
+Añadamos la nueva librería al listado del stack tecnológico para que esté completo.
+
+*   **Lugar:** En la sección `🛠️ Stack Tecnológico`.
+*   **Acción:** Añade un nuevo punto para `react-textarea-autosize`.
+
+---
+
+### **El `README.md` Final y Actualizado**
+
+Aquí tienes el archivo completo con estos tres pequeños pero importantes ajustes ya integrados. Simplemente copia y pega este contenido en tu `README.md`.
+
+```markdown
 # Comparador de DMs con IA
 
 Este proyecto es una aplicación web Full-Stack que sirve como plataforma para comparar la capacidad narrativa y de dirección de juego (Dungeon Master) de dos Modelos de Lenguaje Grandes (LLMs) diferentes. La aplicación permite a un jugador humano iniciar una aventura de Dungeons & Dragons (D&D) que se juega en dos universos paralelos, uno dirigido por cada IA, permitiendo una comparación directa de su coherencia, creatividad y gestión de la partida.
@@ -7,11 +35,12 @@ Esta es una aplicación completa con autenticación de usuarios, persistencia de
 ## ✨ Características Principales
 
 -   **Autenticación de Usuarios:** Sistema completo de registro e inicio de sesión con email y contraseña.
--   **Dashboard Personal:** Cada usuario tiene un dashboard privado donde puede ver sus partidas guardadas y crear nuevas.
--   **Persistencia Total:** Todas las partidas y conversaciones se guardan en una base de datos MySQL, permitiendo retomar las aventuras en cualquier momento.
+-   **Dashboard Personal:** Cada usuario tiene un dashboard privado donde puede ver, retomar y eliminar sus partidas guardadas.
+-   **Hoja de Personaje:** Interfaz para definir el nombre, raza, clase y atributos del personaje, así como el escenario inicial de la aventura.
+-   **Persistencia Total:** Todas las partidas y conversaciones se guardan en una base de datos MySQL.
 -   **Comparación en Paralelo:** Envía una única acción del jugador a dos IAs de Groq simultáneamente (`llama-3.1-8b-instant` vs `mixtral-8x7b-32768`) y muestra sus respuestas lado a lado.
--   **Gestión de Contexto:** La aplicación envía el historial completo de la conversación a las IAs en cada turno, permitiéndoles mantener el contexto de la aventura.
--   **Interfaz de Chat Moderna:** La página de juego cuenta con una interfaz de chat pulida, con burbujas de mensajes y scroll automático.
+-   **Gestión de Contexto:** La aplicación envía el historial completo de la conversación y los datos del personaje a las IAs en cada turno.
+-   **Interfaz de Chat Moderna:** La página de juego cuenta con una interfaz pulida, con burbujas de mensajes, scroll automático y un input de texto que crece dinámicamente.
 
 ## 🛠️ Stack Tecnológico
 
@@ -21,6 +50,7 @@ Esta es una aplicación completa con autenticación de usuarios, persistencia de
 -   **ORM:** Prisma
 -   **Autenticación:** Next-Auth
 -   **APIs de IA:** Groq (Llama, Mixtral)
+-   **UI Component:** `react-textarea-autosize`
 
 ## 🚀 Guía de Instalación y Ejecución
 
@@ -176,7 +206,7 @@ Este es el paso más importante. Sigue este método manual para asegurar una con
     ````
 
 4.  **Importa el script SQL a tu base de datos.**
-    -   **Opción A (GUI):** Usa un cliente de base de datos como PHPMyAdmin, MySQL Workbench, o DBeaver. Conéctate a tu base de datos `proyecto_ia` y ejecuta el contenido del archivo `database-schema.sql`.
+    -   **Opción A (GUI):** Usa un cliente de base de datos como MySQL Workbench o DBeaver. Conéctate a tu base de datos `proyecto_ia` y ejecuta el contenido del archivo `database-schema.sql`.
     -   **Opción B (Línea de Comandos):** Abre una terminal en la raíz de tu proyecto y ejecuta el siguiente comando. Te pedirá la contraseña de tu usuario de MySQL (`usuario` en este caso).
         ```bash
         mysql -u usuario -p proyecto_ia < database-schema.sql
