@@ -16,11 +16,9 @@ export default function PartidaPage() {
     const [userInput, setUserInput] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     
-    // ---------- CAMBIO 1: Creamos DOS referencias, una para cada columna ----------
     const chatEndRef1 = useRef(null);
     const chatEndRef2 = useRef(null);
 
-    // ---------- CAMBIO 2: La función ahora hace scroll en AMBAS referencias ----------
     const scrollToBottom = () => {
         chatEndRef1.current?.scrollIntoView({ behavior: "smooth" });
         chatEndRef2.current?.scrollIntoView({ behavior: "smooth" });
@@ -64,25 +62,29 @@ export default function PartidaPage() {
         setIsSubmitting(false);
     };
 
+    // ---------- LÓGICA DE CONVERSACIÓN CORREGIDA ----------
+    // Esta nueva lógica es más robusta y soluciona el bug del mensaje inicial que desaparecía.
     const conversationTurns = [];
     if (partida) {
-        let currentTurn = { user: null, assistant1: null, assistant2: null };
-        partida.mensajes.forEach(msg => {
-            if (msg.role === 'user') {
-                if (currentTurn.user) {
-                    conversationTurns.push(currentTurn);
-                    currentTurn = { user: null, assistant1: null, assistant2: null };
-                }
-                currentTurn.user = msg;
-            } else if (msg.role === 'assistant1') {
-                currentTurn.assistant1 = msg;
-            } else if (msg.role === 'assistant2') {
-                currentTurn.assistant2 = msg;
-            }
-        });
-        if (currentTurn.user || currentTurn.assistant1 || currentTurn.assistant2) {
-            conversationTurns.push(currentTurn);
+        // Primero, comprobamos si existe el turno inicial (sin mensaje de usuario).
+        if (partida.mensajes.length > 0 && partida.mensajes[0].role !== 'user') {
+            conversationTurns.push({
+                user: null,
+                assistant1: partida.mensajes.find(m => m.role === 'assistant1'),
+                assistant2: partida.mensajes.find(m => m.role === 'assistant2'),
+            });
         }
+
+        // Luego, procesamos todos los turnos que SÍ empiezan con un mensaje de usuario.
+        const userMessages = partida.mensajes.filter(m => m.role === 'user');
+        userMessages.forEach((userMsg) => {
+            const userMsgIndexInMainArray = partida.mensajes.findIndex(m => m.id === userMsg.id);
+            conversationTurns.push({
+                user: userMsg,
+                assistant1: partida.mensajes.find((m, i) => i > userMsgIndexInMainArray && m.role === 'assistant1'),
+                assistant2: partida.mensajes.find((m, i) => i > userMsgIndexInMainArray && m.role === 'assistant2'),
+            });
+        });
     }
 
     if (loading || status === 'loading') return <div>Cargando partida...</div>;
@@ -103,6 +105,8 @@ export default function PartidaPage() {
                         <div className={styles.chatBox}>
                             {conversationTurns.map((turn, index) => (
                                 <div key={index}>
+                                    {/* ---------- ORDEN DE RENDERIZADO CORREGIDO ---------- */}
+                                    {/* El mensaje del usuario siempre se muestra primero en su turno. */}
                                     {turn.user && (
                                         <div className={styles.userMessageContainer}>
                                             <p className={styles.messageLabel}>Tú</p>
@@ -117,7 +121,6 @@ export default function PartidaPage() {
                                     )}
                                 </div>
                             ))}
-                             {/* ---------- CAMBIO 3: Usamos la primera referencia aquí ---------- */}
                              <div ref={chatEndRef1} />
                         </div>
                     </div>
@@ -126,6 +129,7 @@ export default function PartidaPage() {
                         <div className={styles.chatBox}>
                              {conversationTurns.map((turn, index) => (
                                 <div key={index}>
+                                     {/* ---------- ORDEN DE RENDERIZADO CORREGIDO ---------- */}
                                     {turn.user && (
                                         <div className={styles.userMessageContainer}>
                                             <p className={styles.messageLabel}>Tú</p>
@@ -140,7 +144,6 @@ export default function PartidaPage() {
                                     )}
                                 </div>
                             ))}
-                            {/* ---------- CAMBIO 4: Añadimos la SEGUNDA referencia aquí ---------- */}
                             <div ref={chatEndRef2} />
                         </div>
                     </div>
