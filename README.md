@@ -1,31 +1,3 @@
-#### **1. Añadir la Nueva Dependencia (`react-textarea-autosize`)**
-
-Es una buena práctica documentar todas las dependencias principales. Aunque `npm install` la instalará automáticamente, mencionarla da una visión más completa del stack.
-
-*   **Lugar:** En la sección `✨ Características Principales`.
-*   **Acción:** Añade un nuevo punto a la lista.
-
-#### **2. Añadir la "Hoja de Personaje" a las Características**
-
-¡Hemos implementado un extra importante! Deberíamos presumir de ello en la lista de características.
-
-*   **Lugar:** En la sección `✨ Características Principales`.
-*   **Acción:** Añade otro punto a la lista describiendo esta funcionalidad.
-
-#### **3. Actualizar la Dependencia en la Sección de Stack**
-
-Añadamos la nueva librería al listado del stack tecnológico para que esté completo.
-
-*   **Lugar:** En la sección `🛠️ Stack Tecnológico`.
-*   **Acción:** Añade un nuevo punto para `react-textarea-autosize`.
-
----
-
-### **El `README.md` Final y Actualizado**
-
-Aquí tienes el archivo completo con estos tres pequeños pero importantes ajustes ya integrados. Simplemente copia y pega este contenido en tu `README.md`.
-
-```markdown
 # Comparador de DMs con IA
 
 Este proyecto es una aplicación web Full-Stack que sirve como plataforma para comparar la capacidad narrativa y de dirección de juego (Dungeon Master) de dos Modelos de Lenguaje Grandes (LLMs) diferentes. La aplicación permite a un jugador humano iniciar una aventura de Dungeons & Dragons (D&D) que se juega en dos universos paralelos, uno dirigido por cada IA, permitiendo una comparación directa de su coherencia, creatividad y gestión de la partida.
