@@ -1,120 +1,123 @@
 /* Archivo: styles/Dashboard.module.css */
 
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  text-align: center;
+  border-bottom: 2px solid var(--color-border);
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  font-size: 4rem;
 }
 
 .userInfo {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-}
-
-.userInfo span {
-  color: var(--subtle-text-color);
+  margin-top: 1rem;
+  padding: 0 1rem;
+  font-family: var(--font-body);
+  color: var(--color-text-light);
 }
 
 .logoutButton {
   padding: 0.6rem 1.2rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
   cursor: pointer;
-  background-color: var(--surface-color);
-  font-weight: 500;
+  background-color: transparent;
+  color: var(--color-text-light);
+  font-weight: bold;
   transition: all 0.2s;
 }
+
 .logoutButton:hover {
-  background-color: #f0f0f0;
-  border-color: #ccc;
+  background-color: var(--color-accent-red);
+  border-color: var(--color-accent-red);
 }
 
 .newGameButton {
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--primary-color);
-  color: white;
+  padding: 1rem 2rem;
+  border: 2px solid var(--color-dark-wood);
+  border-radius: 2px;
+  background-color: var(--color-accent-red);
+  color: var(--color-text-light);
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background-color 0.2s;
-}
-.newGameButton:hover {
-  background-color: var(--primary-hover);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  display: block;
+  margin: 0 auto 2rem auto;
 }
 
 .form {
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
+  background-color: var(--color-parchment);
+  color: var(--color-text-dark);
+  border: 2px solid #5a4e40;
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 4px;
   margin: 2rem 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .form h3 {
-  font-size: 1.75rem;
-  margin: 0 0 1.5rem 0;
+  font-size: 2.5rem;
+  color: var(--color-text-dark);
+  text-shadow: none;
+  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* --- NUEVOS ESTILOS PARA LAS SECCIONES --- */
 .formSection {
   margin-bottom: 2rem;
-  padding: 1.5rem;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  border: 1px solid #eee;
 }
 
 .sectionTitle {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--subtle-text-color);
+  font-size: 1.8rem;
+  font-family: var(--font-heading);
+  color: var(--color-text-dark);
+  text-shadow: none;
   margin: 0 0 1.5rem 0;
 }
-/* ------------------------------------------- */
 
 .inputGroup {
   margin-bottom: 1rem;
 }
 
-.input, .textarea {
+.inputGroup label {
+  font-weight: bold;
+}
+
+.input,
+.textarea {
   width: 100%;
   padding: 0.8rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 2px;
+  border: 1px solid var(--color-border);
   font-size: 1rem;
-  font-family: inherit;
+  font-family: var(--font-body);
+  background-color: #f3eade;
+  color: var(--color-text-dark);
 }
 
 .createButton {
   width: 100%;
   margin-top: 1rem;
   padding: 1rem;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--success-color);
-  color: white;
+  border: 2px solid var(--color-dark-wood);
+  border-radius: 2px;
+  background-color: var(--color-accent-red);
+  color: var(--color-text-light);
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
 }
 
 .partidasGrid {
@@ -125,30 +128,35 @@
 }
 
 .partidaCard {
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
+  background-color: var(--color-parchment);
+  color: var(--color-text-dark);
+  border: 2px solid #5a4e40;
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 4px;
   text-decoration: none;
-  color: inherit;
   transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
+
 .partidaCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  border-color: var(--primary-color);
+  transform: translateY(-5px) rotate(1deg);
+  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.6);
 }
+
 .partidaCard h3 {
-  font-size: 1.25rem;
+  font-size: 1.8rem;
+  color: var(--color-text-dark);
+  text-shadow: none;
   margin-bottom: 0.5rem;
 }
+
 .partidaCard p {
-  color: var(--subtle-text-color);
+  font-family: var(--font-body);
+  color: #5a4e40;
   font-size: 0.9rem;
   margin: 0;
 }
@@ -159,19 +167,28 @@
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 50%;
-  color: #aaa;
+  color: #776b5d;
   transition: all 0.2s;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
 }
+
 .deleteButton:hover {
-  background-color: #ffebee;
-  color: #d32f2f;
+  color: var(--color-accent-red);
 }
 
 .characterGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
+}
+
+.emptyDashboardText {
+  font-family: var(--font-body);
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 3rem;
+  font-style: italic;
 }
